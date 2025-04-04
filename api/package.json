@@ -9,8 +9,7 @@
         "build": "tsc",
           "db:migrate": "drizzle-kit  migrate",
             "db:generate": "drizzle-kit generate",
-              "db:studio": "drizzle-kit studio",
-              
+              "db:studio": "drizzle-kit studio"
   },
   "author": "",
     "license": "ISC",
