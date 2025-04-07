@@ -2,7 +2,8 @@ import { Request, Response } from "express";
 import { db } from "../../db/index";
 import { productsTable } from "../../db/productsSchema";
 import { eq } from "drizzle-orm";
-import { PgSparseVectorBuilder } from "drizzle-orm/pg-core";
+import _ from "lodash";
+import { createProductSchema } from "../../db/productsSchema";
 
 export async function listProducts(req: Request, res: Response) {
   try {
@@ -33,7 +34,7 @@ export async function createProduct(req: Request, res: Response) {
   try {
     const [product] = await db
       .insert(productsTable)
-      .values(req.body)
+      .values(req.cleanBody)
       .returning();
     res.status(201).json(product);
   } catch (error) {
@@ -44,7 +45,7 @@ export async function createProduct(req: Request, res: Response) {
 
 export async function updateProduct(req: Request, res: Response) {
   try {
-    const updatedFields = req.body;
+    const updatedFields = req.cleanBody;
     // Check if the request body is empty
     const id = Number(req.params.id);
     const [product] = await db
